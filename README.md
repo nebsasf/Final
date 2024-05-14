@@ -1,96 +1,67 @@
-# Final
-#Final
-
-
-#fullcode
-
-import os
 import random
 
-name = input("What's your name?\n")
-print(f"Hello {name}! Let's play the word guessing game.")
+def play_word_guessing_game():
+   
+    # Dictionary containing words as keys and their hints as values
+    words_with_hints = {
+        "apple": "a fruit",
+        "banana": "also a fruit",
+        "orange": "a fruit",
+        "tomato": "a fruit",
+        "carrot": "a vegetable",
+        "broccoli": "a vegetable",
+        "grapes": "a fruit",
+        "strawberry": "a fruit",
+        "watermelon": "a fruit",
+        "pineapple": "a fruit",
+        "spinach": "a vegetable",
+        "avocado": "a fruit",
+        "potato": "a vegetable",
+        "pepper": "a vegetable",
+        "lemon": "a fruit",
+        "cucumber": "a vegetable",
+        "peach": "a fruit",
+        "pear": "a fruit",
+        "kiwi": "a fruit",
+        "cauliflower": "a vegetable"
+    }
 
-file_path = "C:\\Users\\Nebiou\\Desktop\\WordGuessingGame\\words.txt"
-
-
-if os.path.exists(file_path):
-    with open(file_path, "r") as file:
-        
-        words = [word.strip() for word in file.readlines()]
-        
-    
-    random_word = random.choice(words)
-
-
-    
+    # Choose a random word and its corresponding hint from the dictionary
+    random_word, hint = random.choice(list(words_with_hints.items()))
     letter_guesses = 0
-    word_guesses = 0
     incorrect_word_guesses = 0
-    guessed_word = ['_'] * len(random_word)
 
-    
-    while '_' in guessed_word and incorrect_word_guesses < 3:
-        
-      
-        
+    print(f"Hint: {hint}")
 
+    # Game loop
+    while incorrect_word_guesses < 3:
+        # Get user guess
         guess = input("Guess a letter or the word: The answer is a fruit or vegetable ").lower()
-        
-        
-        if len(guess) == 1:
+
+        # Process user guess
+        if len(guess) == 1:  # Single letter guess
             letter_guesses += 1
             if guess in random_word:
-                print(f"The letter {guess} is in the word {random_word.count(guess)} times.")
-                
+                count = random_word.count(guess)
+                print(f"The letter {guess} is in the word {count} time(s).")
             else:
                 print(f"The letter '{guess}' is not in the word.")
-        
-        
-        elif len(guess) == len(random_word):
-            word_guesses += 1
-            if guess in random_word:
+        elif len(guess) == len(random_word):  # Full word guess
+            if guess == random_word:
                 print("Congratulations! You guessed the word correctly!")
                 break
-             
             else:
                 incorrect_word_guesses += 1
                 print("Incorrect guess! Try again.")
-        else:
+        else:  # Invalid guess
             incorrect_word_guesses += 1
             print("Incorrect guess! Try again.")
-            
 
-   
-    if '_' not in guessed_word:
-        score = letter_guesses
-        print(f"Your score: {score} letter guesses.")
-
-        
-else:
-    print(f"The file {file_path} does not exist.")
-
-
-if incorrect_word_guesses == 3:
+    # Display game outcome
+    if incorrect_word_guesses == 3:
+        print(f"The correct word was: {random_word}")
         print("You lose!")
-        quit()
+    else:
+        print(f"Your total points are {20 - letter_guesses - (5 * incorrect_word_guesses)}")
 
-print(f"you guessed this letter {letter_guesses} times")
-print(f"you guessed this word {incorrect_word_guesses} times")
-
-total_points= 20
-lose_letterguess=total_points-letter_guesses
-points_for_inncorect=incorrect_word_guesses*5
-tally=lose_letterguess-points_for_inncorect
-
-if tally < 0:
-    tally=0
-    print("You lose!")
-
-
-    
-else:
-    print(f"your total points is {tally}")
-
-
-
-
+play_word_guessing_game()
